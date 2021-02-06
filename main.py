@@ -22,9 +22,11 @@ def phoneCreator():
 url = 'https://студенческийлидер.рф/video'
 loopLen = int(input('Введите количество лайков: '))
 counter = 0
-for i in range(loopLen):
-    chromeBrowser = webdriver.Chrome(executable_path=os.path.abspath('chromedriver'), chrome_options=chrome_options)
-    chromeBrowser.get(url)
+chromeBrowser = webdriver.Chrome(executable_path=os.path.abspath('chromedriver'), chrome_options=chrome_options)
+chromeBrowser.get(url)
+
+
+def likeIncrimination():
     likeButton = chromeBrowser.find_element_by_id('like-4983e4426918150342349d2f8dbc5de7')
     likeButton.click()
 
@@ -53,7 +55,18 @@ for i in range(loopLen):
 
     likeButton = chromeBrowser.find_element_by_id('like-4983e4426918150342349d2f8dbc5de7')
     likeButton.click()
-    counter += 1
     print(f'Лайкнул: {person}, РГУПС, {samplePhone}, {personSurnameEng}@mail.ru')
-    print(f'Добавлено лайков: {counter}, {gmtime().tm_hour}:{gmtime().tm_min}:{gmtime().tm_sec}')
-    chromeBrowser.quit()
+    chromeBrowser.delete_all_cookies()
+    chromeBrowser.refresh()
+
+if __name__ == "__main__":
+    for i in range(loopLen):
+        try:
+            likeIncrimination()
+            counter += 1
+        except:
+            print('слишком быстро, один лайк потерялся...')
+            chromeBrowser.get(url)
+
+        print(f'Добавлено лайков: {counter}, {gmtime().tm_hour}:{gmtime().tm_min}:{gmtime().tm_sec}')
+
